@@ -1,7 +1,18 @@
 <template>
     <lightning-card variant="Narrow" title="First Component" icon-name="standard:account">
         <div>
-            <p class="slds-p-horizontal_small">Enter text to display</p>
+        <div>
+            <p class="slds-p-horizontal_small">{message}</p>
         </div>
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Enter Text" value={message} onchange={handleChange}></lightning-input>
+        </div>
+        <template if:true={modalVisibilty}>
+            <div class="slds-m-vertical_medium">
+                Something New is Coming!....
+            </div>
+        </template>
+    </div>
     </lightning-card>
+    
 </template>
