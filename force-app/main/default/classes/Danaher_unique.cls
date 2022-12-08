@@ -207,20 +207,21 @@ public class Danaher_UniqueContactCreation
         
         // Code for Email Map as key and List of Records as value i.e OpCo_Related_Contact__c
         Map<String,List<OpCo_Related_Contact__c>> mapEmail=new Map<String,List<OpCo_Related_Contact__c>>();
-        for(OpCo_Related_Contact__c op:lstAllOpCoRelated){
-            if(mapEmail.containsKey(op.Email__c)){
-                List<OpCo_Related_Contact__c> con=mapEmail.get(op.Email__c);
-                con.add(op);
-                mapEmail.put(op.Email__c,con);
+        for(OpCo_Related_Contact__c op:lstAllOpCoRelated)
+            {
+                if(mapEmail.containsKey(op.Email__c))
+                    {
+                        List<OpCo_Related_Contact__c> con=mapEmail.get(op.Email__c);
+                        con.add(op);
+                        mapEmail.put(op.Email__c,con);
+                    }
+                else
+                    {
+                        List<OpCo_Related_Contact__c> lstOp=new List<OpCo_Related_Contact__c>();
+                        lstOp.add(op);
+                        mapEmail.put(op.Email__c,lstOp);
+                    }
             }
-            else{
-                List<OpCo_Related_Contact__c> lstOp=new List<OpCo_Related_Contact__c>();
-                lstOp.add(op);
-                mapEmail.put(op.Email__c,lstOp);
-            }
-        }
-        
-        
         //
         for(OpCo_Related_Contact__c opCon:lstOpCo)
         {
@@ -244,274 +245,263 @@ public class Danaher_UniqueContactCreation
             Set<String>prodInterest=new Set<String>();
             String prod_Intst='';
             if(res.Size()>0)
-            {
-                for(OpCo_Related_Contact__c child:res)
                 {
-                    for(Mapping_Master__c mapRes:mappingRec)
-                    { 
-                            /* Status */
-                        if(child.status__c!=NULL)
+                    for(OpCo_Related_Contact__c child:res)
                         {
-                            if(child.Status__c.contains(','))
-                            {
-                                List<String> value=child.Status__c.split(',');
-                                child.Status__c=value[0];
-                            }  
-                        }
-                            /* Status */
-                        if(child.Sub_Marketing_Vertical__c!=NULL)
-                            {
-                                if(child.Sub_Marketing_Vertical__c.contains(','))
+                            for(Mapping_Master__c mapRes:mappingRec)
+                                { 
+                                    /* Status */
+                                    if(child.status__c!=NULL)
+                                        {
+                                            if(child.Status__c.contains(','))
+                                                {
+                                                    List<String> value=child.Status__c.split(',');
+                                                    child.Status__c=value[0];
+                                                }  
+                                        }
+                                    /* Status */
+                                    if(child.Sub_Marketing_Vertical__c!=NULL)
+                                        {
+                                            if(child.Sub_Marketing_Vertical__c.contains(','))
+                                                {
+                                                    List<String> value=child.Sub_Marketing_Vertical__c.split(',');
+                                                    child.Sub_Marketing_Vertical__c=value[0];
+                                                }  
+                                        }  
+                    
+                                    /*Application Interest Segment */
+                                    if(child.Application_Interest_Segment__c!=NULL)
+                                        {
+                                            if(child.Application_Interest_Segment__c.contains(','))
+                                                {
+                                                    List<String> value=child.Application_Interest_Segment__c.split(',');
+                                                    child.Application_Interest_Segment__c=value[0];
+                                                }   
+                                        }
+                                    /* Contact Role */
+                                    if(child.Contact_Role__c!=NULL)
+                                        {
+                                            if(child.Contact_Role__c.contains(','))
+                                                {
+                                                    List<String> value=child.Contact_Role__c.split(',');
+                                                    child.Contact_Role__c=value[0];
+                                                }
+                                        }
+                                    /* Marketing Vertical  */
+                                    if(child.Marketing_Vertical__c!=NULL)
+                                        {
+                                            if(child.Marketing_Vertical__c.contains(','))
+                                                {
+                                                    List<String> value=child.Marketing_Vertical__c.split(',');
+                                                    child.Marketing_Vertical__c=value[0];
+                                                }   
+                                        }
+                                    /*Product Interest*/
+                                    if(child.Product_Interest__c!=NULL)
+                                        {
+                                            if(child.Product_Interest__c.contains(','))
+                                                {
+                                                    List<String> value=child.Product_Interest__c.split(',');
+                                                    child.Product_Interest__c=value[0];
+                                                }
+                                        }
+                    
+                    
+                                        if(child.Contact_Role__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Contact_Role__c' )
+                                            {
+                                                child.Contact_Role__c=mapRes.Destination_Value__c;       
+                                            } 
+                                        if(child.Sub_Marketing_Vertical__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Sub_Market_Vertical__c' )
+                                            {
+                                                child.Sub_Marketing_Vertical__c=mapRes.Destination_Value__c;       
+                                            }    
+                                        if(child.Status__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Status__c' )
+                                            {
+                                                child.Status__c=mapRes.Destination_Value__c;       
+                                            }
+                                        if(child.Application_Interest_Segment__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Application_Interest_Segment__c' )
+                                            {
+                                                child.Application_Interest_Segment__c=mapRes.Destination_Value__c;       
+                                            } 
+                                        if(child.Marketing_Vertical__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Marketing_Vertical__c' )
+                                            {
+                                                child.Marketing_Vertical__c=mapRes.Destination_Value__c;       
+                                            } 
+                                        if(child.Product_Interest__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Product_Interest__c' )
+                                            {
+                                                child.Product_Interest__c=mapRes.Destination_Value__c;       
+                                            } 
+                                }
+                            // Insertion of values 
+                            if(child.Contact_Role__c!=NULL)
                                 {
-                                    List<String> value=child.Sub_Marketing_Vertical__c.split(',');
-                                    child.Sub_Marketing_Vertical__c=value[0];
-                                }  
-                            }  
-                    
-                            /*Application Interest Segment */
-                        if(child.Application_Interest_Segment__c!=NULL)
-                        {
-                            if(child.Application_Interest_Segment__c.contains(','))
-                            {
-                                List<String> value=child.Application_Interest_Segment__c.split(',');
-                                child.Application_Interest_Segment__c=value[0];
-                            }   
+					                conRole.add(child.Contact_Role__c);                    
+                                }
+                            if(child.Sub_Marketing_Vertical__c!=Null)
+                                {
+                                    subVer.add(child.Sub_Marketing_Vertical__c);
+                                }
+                            if(child.Status__c!=NULL)
+                                {
+                                    status.add(child.Status__c);
+                                }   
+                            if(child.Marketing_Vertical__c!=NULL)
+                                {
+                                    mrktVertical.add(child.Marketing_Vertical__c); 
+                                }
+                            if(child.Application_Interest_Segment__c!=NULL)
+                                {
+                                    applIntSeg.add(child.Application_Interest_Segment__c); 
+                                }
+                            if(child.Product_Interest__c!=NULL)
+                                {
+                                    prodInterest.add(child.Product_Interest__c); 
+                                }   
+                            //
+                            for(String conR:conRole)
+                                {
+                                    //Boolean result=;
+                                    if(!conRolePickListValues.contains(conR))
+                                        {
+                                            conRole.remove(conR);
+                                            conRole.add('Undefined');
+                                        }
+                                    if(conR==null)
+                                        {
+                                            conRole.remove(conR);
+                                        }   
+                                }
+                            //
+                                for(String sV:subVer)
+                                    {
+                                        //Boolean result=;
+                                        if(!subMrktVerPickListValues.contains(sV))
+                                            {
+                                                subVer.remove(sV);
+                                                subVer.add('Undefined');
+                                            }
+                                        if(sVr==null)
+                                            {
+                                                subVer.remove(sV);
+                                            }     
+                                    }
+                            //
+                            for(String sta:status)
+                                {
+                                    //Boolean result=; 
+                                    //system.debug(result);
+                                    if(!statusPickListValues.contains(sta))
+                                        {
+                                            status.remove(sta);
+                                            status.add('Undefined');
+                                        }
+                                    if(sta==null)
+                                        {
+                                            status.remove(sta);
+                                        }
+                                }
+                            //
+                            for(String mrktVer:mrktVertical)
+                                {
+                                    if(!mrktVertPickListValues.contains(mrktVer))
+                                        {
+                                            mrktVertical.remove(mrktVer);
+                                            mrktVertical.add('Undefined');
+                                        }
+                                    if(mrktVer==null)
+                                        {
+                                            mrktVertical.remove(mrktVer);
+                                        }
+                                }
+                            //
+                            for(String applIn:applIntSeg)
+                                {
+                                    //Boolean result=applIntSegPickListValues.contains(applIn);
+                                    if(!applIntSegPickListValues.contains(applIn))
+                                        {
+                                            applIntSeg.remove(applIn);
+                                            applIntSeg.add('Undefined');
+                                        }
+                                    if(applIn==null)
+                                        {
+                                            applIntSeg.remove(applIn);
+                                        }  
+                                }
+                            for(String prInt:prodInterest)
+                                {
+                                    if(!prodIntPickListValues.contains(prInt))
+                                        {
+                                            prodInterest.remove(prInt);
+                                            prodInterest.add('Undefined');
+                                        }
+                                    if(prInt==null)
+                                        {
+                                            prodInterest.remove(prInt);
+                                        }
+                                }    
                         }
-                            /* Contact Role */
-                        if(child.Contact_Role__c!=NULL)
-                        {
-                            if(child.Contact_Role__c.contains(','))
-                            {
-                                List<String> value=child.Contact_Role__c.split(',');
-                                child.Contact_Role__c=value[0];
-                            }
-                        }
-                            /* Marketing Vertical  */
-                        if(child.Marketing_Vertical__c!=NULL)
-                        {
-                            if(child.Marketing_Vertical__c.contains(','))
-                            {
-                                List<String> value=child.Marketing_Vertical__c.split(',');
-                                child.Marketing_Vertical__c=value[0];
-                            }   
-                        }
-                            /*Product Interest*/
-                        if(child.Product_Interest__c!=NULL)
-                        {
-                            if(child.Product_Interest__c.contains(','))
-                            {
-                                List<String> value=child.Product_Interest__c.split(',');
-                                child.Product_Interest__c=value[0];
-                            }
-                        }
-                    
-                    
-                        if(child.Contact_Role__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Contact_Role__c' )
-                        {
-                            child.Contact_Role__c=mapRes.Destination_Value__c;       
-                        } 
-                        if(child.Sub_Marketing_Vertical__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Sub_Market_Vertical__c' )
-                        {
-                            child.Sub_Marketing_Vertical__c=mapRes.Destination_Value__c;       
-                        } 
-                        if(child.Status__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Status__c' )
-                        {
-                            child.Status__c=mapRes.Destination_Value__c;       
-                        }
-                    
-                        if(child.Application_Interest_Segment__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Application_Interest_Segment__c' )
-                        {
-                            child.Application_Interest_Segment__c=mapRes.Destination_Value__c;       
-                        } 
-                        if(child.Marketing_Vertical__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Marketing_Vertical__c' )
-                        {
-                            child.Marketing_Vertical__c=mapRes.Destination_Value__c;       
-                        } 
-                        if(child.Product_Interest__c==mapRes.Source_Value__c && child.Source__c==mapRes.Source_OpCo__c && mapRes.Destination_Field__c=='Product_Interest__c' )
-                        {
-                            child.Product_Interest__c=mapRes.Destination_Value__c;       
-                        } 
-                    }
-                    // Insertion of values 
-                     if(child.Contact_Role__c!=NULL)
-                    {
-					    conRole.add(child.Contact_Role__c);                    
-                    }
-                    if(child.Sub_Marketing_Vertical__c!=Null)
-                    {
-                        subVer.add(child.Sub_Marketing_Vertical__c);
-                    }
-
-                    if(child.Status__c!=NULL)
-                    {
-                        status.add(child.Status__c);
-                    }
-                
-                    if(child.Marketing_Vertical__c!=NULL)
-                    {
-                        mrktVertical.add(child.Marketing_Vertical__c); 
-                    }
-
-                    if(child.Application_Interest_Segment__c!=NULL)
-                    {
-                        applIntSeg.add(child.Application_Interest_Segment__c); 
-                    }
-
-                    if(child.Product_Interest__c!=NULL)
-                    {
-                        prodInterest.add(child.Product_Interest__c); 
-                    }   
-                    //
-                    for(String conR:conRole)
-                    {
-                        //Boolean result=;
-                        if(!conRolePickListValues.contains(conR))
-                        {
-                            conRole.remove(conR);
-                            conRole.add('Undefined');
-                        }
-                        if(conR==null)
-                        {
-                            conRole.remove(conR);
-                        }   
-                    }
-                    //
-                    for(String sV:subVer)
-                    {
-                      //Boolean result=;
-                      if(!subMrktVerPickListValues.contains(sV))
-                        {
-                            subVer.remove(sV);
-                            subVer.add('Undefined');
-                        }
-                      if(sVr==null)
-                        {
-                            subVer.remove(sV);
-                        }     
-                    }
-                    //
-                    for(String sta:status)
-                    {
-                        //Boolean result=; 
-                        //system.debug(result);
-                        if(!statusPickListValues.contains(sta))
-                        {
-                            status.remove(sta);
-                            status.add('Undefined');
-                        }
-                    
-                        if(sta==null)
-                        {
-                            status.remove(sta);
-                        }
-                    }
-                    //
-                    for(String mrktVer:mrktVertical)
-                    {
-                        if(!mrktVertPickListValues.contains(mrktVer))
-                        {
-                            mrktVertical.remove(mrktVer);
-                            mrktVertical.add('Undefined');
-                        }
-                        if(mrktVer==null)
-                        {
-                            mrktVertical.remove(mrktVer);
-                        }
-                    }
-                    //
-                    for(String applIn:applIntSeg)
-                    {
-                        //Boolean result=applIntSegPickListValues.contains(applIn);
-                        if(!applIntSegPickListValues.contains(applIn))
-                        {
-                            applIntSeg.remove(applIn);
-                            applIntSeg.add('Undefined');
-                        }
-                        if(applIn==null)
-                        {
-                            applIntSeg.remove(applIn);
-                        }  
-                    }
-                    for(String prInt:prodInterest)
-                    {
-                        if(!prodIntPickListValues.contains(prInt))
-                        {
-                            prodInterest.remove(prInt);
-                            prodInterest.add('Undefined');
-                        }
-                        if(prInt==null)
-                        {
-                            prodInterest.remove(prInt);
-                        }
-                    }    
                 }
-            }
-            
             //For Contact Role
             for(String str:conRole)
-            {
-                cRole+=str+';';
-            }
+                {
+                    cRole+=str+';';
+                }
             if(cRole.length()>0)
-            {
-                cRole=cRole.substring(0,cRole.length()-1);
-                opCon.Contact_Role__c=cRole; 
-            }
+                {
+                    cRole=cRole.substring(0,cRole.length()-1);
+                    opCon.Contact_Role__c=cRole; 
+                }
             /* */
             for(String str:subVer)
-            {
-                sVer+=str+';';
-                if(sVer.length()>0)
+                {
+                    sVer+=str+';';
+                }
+            if(sVer.length()>0)
                 {
                     sVer=sVer.substring(0,sVer.length()-1);
                     opCon.Sub_Marketing_Vertical__c=sVer; 
                 }
-            }
-
+                
             // For Status
             for(String str:status)
-            {
-                st_pickVal+=str+';';
-            }
+                {
+                    st_pickVal+=str+';';
+                }
             if(st_pickVal.length()>0)
-            {
-               st_pickVal=st_pickVal.substring(0,st_pickVal.length()-1);
-               opCon.Status__c=st_pickVal; 
-            }
-            
+                {
+                    st_pickVal=st_pickVal.substring(0,st_pickVal.length()-1);
+                    opCon.Status__c=st_pickVal; 
+                }
             // For Application Int Segment
             for(String str:applIntSeg)
-            {
-                apI_pickVal+=str+';';
-            }
+                {
+                    apI_pickVal+=str+';';
+                }
             if(apI_pickVal.length()>0)
-            {
-                apI_pickVal=apI_pickVal.substring(0,apI_pickVal.length()-1);
-                opCon.Application_Interest_Segment__c=apI_pickVal;
-            }
-            
+                {
+                    apI_pickVal=apI_pickVal.substring(0,apI_pickVal.length()-1);
+                    opCon.Application_Interest_Segment__c=apI_pickVal;
+                }
             // For Marketing Vertical 
-           
             for(String str:mrktVertical)
-            {
-                mV_pickVal+=str+';';
-            }
+                {
+                    mV_pickVal+=str+';';
+                }
             if(mV_pickVal.length()>0)
-            {
-            mV_pickVal=mV_pickVal.substring(0,mV_pickVal.length()-1);
-            opCon.Marketing_Vertical__c=mV_pickVal; 
-            }
-
+                {
+                    mV_pickVal=mV_pickVal.substring(0,mV_pickVal.length()-1);
+                    opCon.Marketing_Vertical__c=mV_pickVal; 
+                }
             // prod_Intst
             for(String str:prodInterest)
-            {
-                 prod_Intst+=str+';';
-            }
+                {
+                    prod_Intst+=str+';';
+                }
             if(prod_Intst.length()>0)
-            {
-            prod_Intst=prod_Intst.substring(0,prod_Intst.length()-1);
-            opCon.Product_Interest__c=prod_Intst; 
-            }  
+                {
+                    prod_Intst=prod_Intst.substring(0,prod_Intst.length()-1);
+                    opCon.Product_Interest__c=prod_Intst; 
+                }  
         }  
     }
 }

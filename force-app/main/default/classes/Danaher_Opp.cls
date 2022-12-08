@@ -112,8 +112,7 @@ public class Opportunity_Trg_Handler
                         if(opco.Source_OpCo_Record_Id__c == opp.Contact_Role_ID__c)
                             {
                                 opp.LSIG_Contact__c=opco.LSIG_Contact__c;
-                                opp.OpCo_Related_Contact__c=opco.ID;
-                                             
+                                opp.OpCo_Related_Contact__c=opco.ID;               
                             }
                     }             
                 opp.StageName=opp.OpCo_Stage__c;
